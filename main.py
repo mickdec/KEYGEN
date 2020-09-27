@@ -53,12 +53,12 @@ def generateRD(key_length, attempt_counter):
         value = ''
         for x in random.sample(dictionnary,key_length):
             value += x
-            bracket_counter += 1
-            if bracket_counter == 5:
-                value += '-'
-                bracket_counter = 0
-        if value[len(value)-1] == '-':
-            value = value[:-1]
+        #     bracket_counter += 1
+        #     if bracket_counter == 5:
+        #         value += '-'
+        #         bracket_counter = 0
+        # if value[len(value)-1] == '-':
+        #     value = value[:-1]
         if key_list.keys is None:
             exit()
         if value not in key_list.keys.keys():
