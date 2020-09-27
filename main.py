@@ -11,6 +11,8 @@ steam_waiting_time = 3600
 save_file = "SAVE.KGN"
 mode = 1
 platform = "steam"
+dictionnary = "AZERTYUIOPQSDFGHJKLMWXCVBN0123456789"
+key_length = 15
 
 def serialize(lst):
     content = {}
@@ -43,7 +45,6 @@ sv.close()
 
 key_list = KEYLIST()
 key_list.keys = content
-dictionnary = "AZERTYUIOPQSDFGHJKLMWXCVBN0123456789"
 
 def generateRD(key_length, attempt_counter):
     counter = 0
@@ -70,7 +71,6 @@ def generateRD(key_length, attempt_counter):
         key_list.keys = save(key_list.keys, 1)
 
 def StartProcesses():
-    key_length = 15
     count = 1000
     p1 = multiprocessing.Process(target=generateRD, args=(key_length,count))
     p2 = multiprocessing.Process(target=generateRD, args=(key_length,count))
