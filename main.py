@@ -9,6 +9,8 @@ import pyautogui
 
 steam_waiting_time = 3600
 save_file = "SAVE.KGN"
+mode = 1
+platform = "steam"
 
 def serialize(lst):
     content = {}
@@ -82,7 +84,7 @@ def StartProcesses():
     time.sleep(0.1)
     p4.start()
 
-def AutoGUI():
+def SteamAutoGUI():
     #Point(x=1026, y=698)
     if str(pyautogui.position()) != "Point(x=1026, y=698)":
         pyautogui.moveTo(1026, 698, 0)
@@ -101,7 +103,6 @@ def AutoGUI():
 
 keyboard = Controller()
 if __name__ == '__main__':
-    mode = 1
     if mode == 0:
         StartProcesses()
     else:
@@ -112,7 +113,8 @@ if __name__ == '__main__':
             if v == "UNTESTED":
                 for char in k:
                     keyboard.press(char)
-                AutoGUI()
+                if platform == "steam":
+                    SteamAutoGUI()
                 key_list.keys[k] = "TESTED"
                 time.sleep(steam_waiting_time)
         save(key_list.keys, 1)
