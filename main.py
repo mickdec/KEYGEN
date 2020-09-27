@@ -7,12 +7,17 @@ import json
 import time
 import pyautogui
 
-steam_waiting_time = 3600
+
+#Main configuration
 save_file = "SAVE.KGN"
-mode = 1
+mode = 0
 platform = "steam"
 dictionnary = "AZERTYUIOPQSDFGHJKLMWXCVBN0123456789"
 key_length = 15
+keygen_count = 100000
+######################
+
+steam_waiting_time = 3600
 
 def serialize(lst):
     content = {}
@@ -36,7 +41,7 @@ class KEYLIST:
 #LOAD
 if not os.path.exists(save_file):
     sv = open(save_file, "w+")
-    sv.write(json.dumps(lst))
+    sv.write("{}")
     sv.close()
 
 sv = open(save_file, "r")
@@ -49,7 +54,7 @@ key_list.keys = content
 def generateRD(key_length, attempt_counter):
     counter = 0
     for _ in range(0,attempt_counter) :
-        bracket_counter = 0
+        # bracket_counter = 0
         value = ''
         for x in random.sample(dictionnary,key_length):
             value += x
@@ -65,24 +70,20 @@ def generateRD(key_length, attempt_counter):
             key_list.keys[value] = "UNTESTED"
         counter += 1
         #print('>> KEY : ' + value + " ATTEMPT : " + str(counter) + '/' + str(attempt_counter))
+    save(key_list.keys, 1)
 
-    ret_value = save(key_list.keys, 1)
-    if ret_value is not None:
-        key_list.keys = save(key_list.keys, 1)
-
-def StartProcesses():
-    count = 1000
-    p1 = multiprocessing.Process(target=generateRD, args=(key_length,count))
-    p2 = multiprocessing.Process(target=generateRD, args=(key_length,count))
-    p3 = multiprocessing.Process(target=generateRD, args=(key_length,count))
-    p4 = multiprocessing.Process(target=generateRD, args=(key_length,count))
-    p1.start()
-    time.sleep(0.1)
-    p2.start()
-    time.sleep(0.1)
-    p3.start()
-    time.sleep(0.1)
-    p4.start()
+# def StartProcesses():
+#     p1 = multiprocessing.Process(target=generateRD, args=(key_length,keygen_count))
+#     p2 = multiprocessing.Process(target=generateRD, args=(key_length,keygen_count))
+#     p3 = multiprocessing.Process(target=generateRD, args=(key_length,keygen_count))
+#     p4 = multiprocessing.Process(target=generateRD, args=(key_length,keygen_count))
+#     p1.start()
+#     time.sleep(0.1)
+#     p2.start()
+#     time.sleep(0.1)
+#     p3.start()
+#     time.sleep(0.1)
+#     p4.start()
 
 def SteamAutoGUI():
     #Point(x=1026, y=698)
@@ -103,20 +104,46 @@ def SteamAutoGUI():
 
 keyboard = Controller()
 if __name__ == '__main__':
-    if mode == 0:
-        StartProcesses()
-    else:
-        if str(pyautogui.position()) != "Point(x=911, y=511)":
-            pyautogui.moveTo(911, 511, 0)
-        pyautogui.click()
-        for k,v in key_list.keys.items():
-            if v == "UNTESTED":
-                for char in k:
-                    keyboard.press(char)
-                if platform == "steam":
-                    SteamAutoGUI()
-                key_list.keys[k] = "TESTED"
-                time.sleep(steam_waiting_time)
+    generateRD(key_length,keygen_count)
+    for k,v in key_list.keys.items():
+        if v == "UNTESTED":
+            if str(pyautogui.position()) != "Point(x=911, y=511)":
+                pyautogui.moveTo(911, 511, 0)
+            pyautogui.click()
+            for char in k:
+                keyboard.press(char)
+            if platform == "steam":
+                SteamAutoGUI()
+            key_list.keys[k] = "TESTED"
+            time.sleep(steam_waiting_time)
         save(key_list.keys, 1)
-        keyboard.press('a')
+    # if mode == 0:
+    #     #StartProcesses()
+    #     generateRD(key_length,keygen_count)
+    #     if str(pyautogui.position()) != "Point(x=911, y=511)":
+    #         pyautogui.moveTo(911, 511, 0)
+    #     pyautogui.click()
+    #     for k,v in key_list.keys.items():
+    #         if v == "UNTESTED":
+    #             for char in k:
+    #                 keyboard.press(char)
+    #             if platform == "steam":
+    #                 SteamAutoGUI()
+    #             key_list.keys[k] = "TESTED"
+    #             time.sleep(steam_waiting_time)
+    #     save(key_list.keys, 1)
+    # else:
+    #     if str(pyautogui.position()) != "Point(x=911, y=511)":
+    #         pyautogui.moveTo(911, 511, 0)
+    #     pyautogui.click()
+    #     for k,v in key_list.keys.items():
+    #         if v == "UNTESTED":
+    #             for char in k:
+    #                 keyboard.press(char)
+    #             if platform == "steam":
+    #                 SteamAutoGUI()
+    #             key_list.keys[k] = "TESTED"
+    #             time.sleep(steam_waiting_time)
+    #     save(key_list.keys, 1)
+    exit()
     
